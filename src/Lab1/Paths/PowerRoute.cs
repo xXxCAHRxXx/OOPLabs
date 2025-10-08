@@ -4,13 +4,13 @@ using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Paths;
 
-public class PowerPath : IRouteSegment
+public class PowerRoute : IRouteSegment
 {
     private readonly Force _force;
 
     private readonly Distance _distance;
 
-    public PowerPath(Force force, Distance distance)
+    public PowerRoute(Force force, Distance distance)
     {
         if (distance <= Distance.Zero)
             throw new ArgumentOutOfRangeException(nameof(distance), "Distance in path need to be greater than zero");

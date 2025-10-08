@@ -4,11 +4,11 @@ using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Paths;
 
-public class Path : IRouteSegment
+public class Route : IRouteSegment
 {
     private readonly Distance _distance;
 
-    public Path(Distance distance)
+    public Route(Distance distance)
     {
         if (distance <= Distance.Zero)
             throw new ArgumentOutOfRangeException(nameof(distance), "Distance in path need to be greater than zero");
