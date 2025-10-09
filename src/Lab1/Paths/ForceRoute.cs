@@ -4,19 +4,19 @@ using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Paths;
 
-public class PowerRoute : IRouteSegment
+public class ForceRoute : IRouteSegment
 {
     private readonly Force _force;
 
     private readonly Distance _distance;
 
-    public PowerRoute(Force force, Distance distance)
+    public ForceRoute(Distance distance, Force force)
     {
         if (distance <= Distance.Zero)
             throw new ArgumentOutOfRangeException(nameof(distance), "Distance in path need to be greater than zero");
 
-        _force = force;
         _distance = distance;
+        _force = force;
     }
 
     public Result<TimeSpan> TrySimulateSegment(Train train)

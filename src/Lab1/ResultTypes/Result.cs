@@ -2,7 +2,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 
 public abstract record Result<T>
 {
-    private bool IsSuccess => this is Success<T>;
+    public bool IsSuccess => this is Success<T>;
 
     public bool IsFailure => !IsSuccess;
 

@@ -16,7 +16,7 @@ public class Station : IRouteSegment
     public Result<TimeSpan> TrySimulateSegment(Train train)
     {
         if (train.Speed > _maxAllowedSpeed)
-            return Result<TimeSpan>.Fail(new ExceedingMaxSpeedStation());
+            return Result<TimeSpan>.Fail(new ExceedingMaxSpeedStationError());
 
         return Result<TimeSpan>.Success(TimeSpan.Zero);
     }

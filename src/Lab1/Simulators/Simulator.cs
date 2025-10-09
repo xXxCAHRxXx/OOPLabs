@@ -31,7 +31,7 @@ public class Simulator
         }
 
         if (train.Speed > _endMaxSpeed)
-            return Result<TimeSpan>.Fail(new ExceedingMaxRouteSpeedError());
+            return Result<TimeSpan>.Fail(new ExceedingMaxEndRouteSpeedError());
 
         return Result<TimeSpan>.Success(resultTime);
     }
