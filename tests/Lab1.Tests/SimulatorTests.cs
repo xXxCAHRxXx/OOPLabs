@@ -101,14 +101,7 @@ public class SimulatorTests
             new Route(new Distance(100))
         ];
 
-        var train = new Train(new Mass(100), new Force(1000), TimeSpan.FromMilliseconds(100));
-        var simulator = new Simulator(segments, new Speed(100));
-
-        Result<TimeSpan> result = simulator.TrySimulate(train);
-
-        Assert.True(result.IsFailure, "Result should be failure.");
-        Failure<TimeSpan> failure = Assert.IsType<Failure<TimeSpan>>(result);
-        Assert.IsType<NoSpeedAndAccelerationError>(failure.Error);
+        RunSimulatorTest(segments, new Speed(100), Result<TimeSpan>.Fail(new NoSpeedAndAccelerationError()));
     }
 
     [Fact]
@@ -132,8 +125,6 @@ public class SimulatorTests
         ];
 
         RunSimulatorTest(segments, new Speed(100), Result<TimeSpan>.Fail(new ExceedingMaxForceTrainError()));
-        var train = new Train(new Mass(100), new Force(1000), TimeSpan.FromMilliseconds(100));
-        var simulator = new Simulator(segments, new Speed(100));
     }
 
     private void RunSimulatorTest(
@@ -154,9 +145,9 @@ public class SimulatorTests
         else
         {
             Assert.True(actualResult.IsFailure, "Result should be failure.");
-            Failure<TimeSpan> expectedSuccess = Assert.IsType<Failure<TimeSpan>>(expectedResult);
-            Failure<TimeSpan> actualSuccess = Assert.IsType<Failure<TimeSpan>>(actualResult);
-            Assert.IsType(expectedSuccess.Error.GetType(), actualSuccess.Error);
+            Failure<TimeSpan> expectedFailure = Assert.IsType<Failure<TimeSpan>>(expectedResult);
+            Failure<TimeSpan> actualFailure = Assert.IsType<Failure<TimeSpan>>(actualResult);
+            Assert.IsType(expectedFailure.Error.GetType(), actualFailure.Error);
         }
     }
 }
