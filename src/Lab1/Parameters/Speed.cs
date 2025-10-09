@@ -18,7 +18,7 @@ public sealed class Speed
 
     public static Speed operator +(Speed lhs, Speed rhs) => new Speed(lhs.Value + rhs.Value);
 
-    public static bool operator <(Speed lhs, Speed rhs) => lhs.Value > rhs.Value;
+    public static bool operator <(Speed lhs, Speed rhs) => lhs.Value < rhs.Value;
 
     public static bool operator >(Speed lhs, Speed rhs) => rhs < lhs;
 }

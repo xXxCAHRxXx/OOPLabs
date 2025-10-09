@@ -22,7 +22,7 @@ public sealed class Distance
 
     public static bool operator >(Distance lhs, Distance rhs) => rhs < lhs;
 
-    public static bool operator <=(Distance lhs, Distance rhs) => lhs <= rhs;
+    public static bool operator <=(Distance lhs, Distance rhs) => !(lhs > rhs);
 
-    public static bool operator >=(Distance lhs, Distance rhs) => lhs >= rhs;
+    public static bool operator >=(Distance lhs, Distance rhs) => rhs <= lhs;
 }
