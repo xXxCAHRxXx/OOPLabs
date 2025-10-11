@@ -2,6 +2,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Parameters;
 
 public sealed class Force
 {
+    public static Force Zero { get; } = new Force(0);
+
     public double Value { get; }
 
     public Force(double value)

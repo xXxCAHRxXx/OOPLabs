@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
 public record NegativeSpeedError : IBusinessError
 {
-    public string What => "Negative speed.";
+    public string ErrorMessage => "Negative speed.";
 }

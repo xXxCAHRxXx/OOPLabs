@@ -1,8 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Parameters;
-using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
-namespace Itmo.ObjectOrientedProgramming.Lab1.Paths;
+namespace Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
 
 public class Station : IRouteSegment
 {
@@ -13,11 +12,11 @@ public class Station : IRouteSegment
         _maxAllowedSpeed = maxAllowedSpeed;
     }
 
-    public Result<TimeSpan> TrySimulateSegment(Train train)
+    public RouteSegmentResult TrySimulateSegment(Train train)
     {
         if (train.Speed > _maxAllowedSpeed)
-            return Result<TimeSpan>.Fail(new ExceedingMaxSpeedStationError());
+            return new RouteSegmentResult.Failure(new ExceedingMaxSpeedStationError());
 
-        return Result<TimeSpan>.Success(TimeSpan.Zero);
+        return new RouteSegmentResult.Success(TimeSpan.Zero);
     }
 }

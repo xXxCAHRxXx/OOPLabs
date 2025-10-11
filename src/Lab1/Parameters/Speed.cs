@@ -11,9 +11,9 @@ public sealed class Speed
         Value = value;
     }
 
-    public static Speed CreateFromAccelerationAndTime(Acceleration acceleration, TimeSpan deltaT)
+    public static Speed CreateFromAccelerationAndTime(Acceleration acceleration, TimeSpan timeAccuracy)
     {
-        return new Speed(acceleration.Value * deltaT.TotalSeconds);
+        return new Speed(acceleration.Value * timeAccuracy.TotalSeconds);
     }
 
     public static Speed operator +(Speed lhs, Speed rhs) => new Speed(lhs.Value + rhs.Value);

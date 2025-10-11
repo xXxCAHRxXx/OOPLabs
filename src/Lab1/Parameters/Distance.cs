@@ -8,12 +8,15 @@ public sealed class Distance
 
     public Distance(double value)
     {
+        if (value < 0)
+            throw new ArgumentOutOfRangeException(nameof(value), "Distance value must be greater than zero");
+
         _value = value;
     }
 
-    public static Distance CreateFromSpeedAndTime(Speed speed, TimeSpan deltaT)
+    public static Distance Create(Speed speed, TimeSpan timAccuracy)
     {
-        return new Distance(speed.Value * deltaT.TotalSeconds);
+        return new Distance(speed.Value * timAccuracy.TotalSeconds);
     }
 
     public static Distance operator +(Distance lhs, Distance rhs) => new(lhs._value + rhs._value);

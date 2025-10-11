@@ -1,5 +1,4 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Parameters;
-using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
@@ -9,55 +8,50 @@ public class Train
 
     private readonly Force _maxAllowedForce;
 
-    private readonly TimeSpan _deltaT;
+    private readonly TimeSpan _timeAccuracy;
 
     public Speed Speed { get; private set; }
 
     private Acceleration _acceleration;
 
-    public Train(Mass mass, Force maxAllowedForce, TimeSpan deltaT)
+    public Train(Mass mass, Force maxAllowedForce, TimeSpan timeAccuracy)
     {
-        if (deltaT <= TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(deltaT), "Delta time must be greater than zero");
+        if (timeAccuracy <= TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(timeAccuracy), "Time accuracy must be greater than zero");
 
         Speed = Speed.Zero;
         _acceleration = Acceleration.Zero;
         _mass = mass;
         _maxAllowedForce = maxAllowedForce;
-        _deltaT = deltaT;
+        _timeAccuracy = timeAccuracy;
     }
 
-    public Result<TimeSpan> TryApplyForce(Force force)
+    public ApplyForceResult TryApplyForce(Force force)
     {
         if (force.Exceeds(_maxAllowedForce))
-            return Result<TimeSpan>.Fail(new ExceedingMaxForceTrainError());
+            return new ApplyForceResult.Failure(new ExceedingMaxForceTrainError());
 
-        _acceleration = Acceleration.CreateFromForceAndMass(force, _mass);
-        return Result<TimeSpan>.Success(TimeSpan.Zero);
+        _acceleration = Acceleration.Create(force, _mass);
+        return new ApplyForceResult.Success();
     }
 
-    public void ResetAcceleration()
-    {
-        _acceleration = Acceleration.Zero;
-    }
-
-    public Result<TimeSpan> TryCalculateDistance(Distance distance)
+    public TrainResult TryCalculateDistance(Distance distance)
     {
         if (Speed == Speed.Zero && _acceleration == Acceleration.Zero)
-            return Result<TimeSpan>.Fail(new NoSpeedAndAccelerationError());
+            return new TrainResult.Failure(new NoSpeedAndAccelerationError());
 
         TimeSpan resultTime = TimeSpan.Zero;
         Distance curDistance = Distance.Zero;
         while (curDistance < distance)
         {
-            Speed += Speed.CreateFromAccelerationAndTime(_acceleration, _deltaT);
+            Speed += Speed.CreateFromAccelerationAndTime(_acceleration, _timeAccuracy);
             if (Speed < Speed.Zero)
-                return Result<TimeSpan>.Fail(new NegativeSpeedError());
+                return new TrainResult.Failure(new NegativeSpeedError());
 
-            curDistance += Distance.CreateFromSpeedAndTime(Speed, _deltaT);
-            resultTime += _deltaT;
+            curDistance += Distance.Create(Speed, _timeAccuracy);
+            resultTime += _timeAccuracy;
         }
 
-        return Result<TimeSpan>.Success(resultTime);
+        return new TrainResult.Success(resultTime);
     }
 }

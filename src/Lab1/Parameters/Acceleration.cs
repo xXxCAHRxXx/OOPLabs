@@ -11,7 +11,7 @@ public sealed class Acceleration
         Value = value;
     }
 
-    public static Acceleration CreateFromForceAndMass(Force force, Mass mass)
+    public static Acceleration Create(Force force, Mass mass)
     {
         return new Acceleration(force.Value / mass.Value);
     }
