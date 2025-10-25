@@ -24,7 +24,7 @@ public class ProgramTests
         var topic = new Topic("TopicTest1", addresses);
         topic.SendMessage(message);
 
-        Assert.False(user.ReceivedMessages[0].IsReaded);
+        Assert.IsType<IsReadResult.NotRead>(user.IsRead(message));
     }
 
     [Fact]
@@ -39,9 +39,9 @@ public class ProgramTests
         var topic = new Topic("TopicTest2", addresses);
         topic.SendMessage(message);
 
-        UserResultType result = user.TryMarkAsRead(0);
-        Assert.True(user.ReceivedMessages[0].IsReaded);
-        Assert.IsType<UserResultType.Success>(result);
+        TryMarkAsReadResult result = user.TryMarkAsRead(message);
+        Assert.IsType<IsReadResult.Read>(user.IsRead(message));
+        Assert.IsType<TryMarkAsReadResult.Success>(result);
     }
 
     [Fact]
@@ -56,9 +56,9 @@ public class ProgramTests
         var topic = new Topic("TopicTest3", addresses);
         topic.SendMessage(message);
 
-        user.TryMarkAsRead(0);
-        UserResultType result = user.TryMarkAsRead(0);
-        Assert.IsType<UserResultType.AlreadyWasRead>(result);
+        user.TryMarkAsRead(message);
+        TryMarkAsReadResult result = user.TryMarkAsRead(message);
+        Assert.IsType<TryMarkAsReadResult.AlreadyWasRead>(result);
     }
 
     [Fact]
@@ -115,15 +115,31 @@ public class ProgramTests
     {
         var message = new Message("Test7", "This is a test 7.", new ImportanceLevel.Medium());
 
-        var user = new User();
-        var userAddressee1 = new UserAddressee(user);
-        var userAddressee2 = new UserAddressee(user);
-        var filterUserAddressee2 = new FilterAddresseeProxy(userAddressee2, new ImportanceLevel.High());
-        List<IAddressee> addresses = [userAddressee1, filterUserAddressee2];
+        IAddressee mockUserAddressee1 = Substitute.For<IAddressee>();
+        IAddressee mockUserAddressee2 = Substitute.For<IAddressee>();
+        var filterUserAddressee2 = new FilterAddresseeProxy(mockUserAddressee2, new ImportanceLevel.High());
+        List<IAddressee> addresses = [mockUserAddressee1, filterUserAddressee2];
 
         var topic = new Topic("TopicTest7", addresses);
         topic.SendMessage(message);
 
-        Assert.Single(user.ReceivedMessages);
+        mockUserAddressee1.Received(1).Receive(Arg.Any<Message>());
+        mockUserAddressee2.DidNotReceive().Receive(Arg.Any<Message>());
+    }
+
+    [Fact]
+    public void CountMessages_Scenario8_EqualsOne()
+    {
+        var message = new Message("Test8", "This is a test 8.", new ImportanceLevel.Medium());
+
+        var user = new User();
+        var userAddressee1 = new UserAddressee(user);
+        var userAddressee2 = new UserAddressee(user);
+        List<IAddressee> addresses = [userAddressee1, userAddressee2];
+
+        var topic = new Topic("TopicTest7", addresses);
+        topic.SendMessage(message);
+
+        Assert.Equal(1, user.CountMessages);
     }
 }
