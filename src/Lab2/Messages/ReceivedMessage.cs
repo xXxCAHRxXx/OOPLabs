@@ -4,7 +4,7 @@ public class ReceivedMessage
 {
     public Message Message { get; }
 
-    public bool IsReaded { get; private set; } = false;
+    public bool IsRead { get; private set; } = false;
 
     public ReceivedMessage(Message message)
     {
@@ -13,10 +13,10 @@ public class ReceivedMessage
 
     public bool TryMarkAsRead()
     {
-        if (IsReaded)
+        if (IsRead)
             return false;
 
-        IsReaded = true;
+        IsRead = true;
         return true;
     }
 }

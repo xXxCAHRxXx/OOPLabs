@@ -4,23 +4,41 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 public class User
 {
-    public IReadOnlyList<ReceivedMessage> ReceivedMessages => _receivedMessages;
+    public int CountMessages => _receivedMessages.Count;
 
-    private readonly List<ReceivedMessage> _receivedMessages = [];
+    private readonly List<ReceivedMessage> _receivedMessages = new();
 
     public void Receive(Message message)
     {
-        _receivedMessages.Add(new ReceivedMessage(message));
+        if (!_receivedMessages.Any(existing
+                => object.ReferenceEquals(existing.Message, message)))
+        {
+            _receivedMessages.Add(new ReceivedMessage(message));
+        }
     }
 
-    public UserResultType TryMarkAsRead(int i)
+    public IsReadResult IsRead(Message message)
     {
-        if (i < 0 || i >= _receivedMessages.Count)
-            return new UserResultType.OutOfRangeMessages();
+        ReceivedMessage? existing = _receivedMessages
+            .FirstOrDefault(existing => object.ReferenceEquals(existing.Message, message));
 
-        if (!_receivedMessages[i].TryMarkAsRead())
-            return new UserResultType.AlreadyWasRead();
+        if (existing == null)
+            return new IsReadResult.MessageNotFound();
 
-        return new UserResultType.Success();
+        return existing.IsRead ? new IsReadResult.Read() : new IsReadResult.NotRead();
+    }
+
+    public TryMarkAsReadResult TryMarkAsRead(Message message)
+    {
+        ReceivedMessage? existing = _receivedMessages
+            .FirstOrDefault(existing => object.ReferenceEquals(existing.Message, message));
+
+        if (existing == null)
+            return new TryMarkAsReadResult.MessageNotFound();
+
+        if (!existing.TryMarkAsRead())
+            return new TryMarkAsReadResult.AlreadyWasRead();
+
+        return new TryMarkAsReadResult.Success();
     }
 }

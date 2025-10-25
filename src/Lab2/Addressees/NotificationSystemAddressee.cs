@@ -11,17 +11,20 @@ public class NotificationSystemAddressee : IAddressee
     public NotificationSystemAddressee(INotificationSystem system, IEnumerable<string> suspiciousWords)
     {
         _notificationSystem = system;
-        _suspiciousWords = suspiciousWords.Select(word => word.ToLowerInvariant());
+        _suspiciousWords = suspiciousWords;
     }
 
     public void Receive(Message message)
     {
-        string messageText = $"{message.Head} {message.Body}".ToLowerInvariant();
+        string messageText = $"{message.Head} {message.Body}";
 
         foreach (string suspiciousWord in _suspiciousWords)
         {
-            if (messageText.Contains(suspiciousWord, StringComparison.Ordinal))
+            if (messageText.Contains(suspiciousWord, StringComparison.OrdinalIgnoreCase))
+            {
                 _notificationSystem.Notify();
+                return;
+            }
         }
     }
 }
