@@ -15,7 +15,7 @@ public class ProgramTests
     [Fact]
     public void IsReaded_Scenario1_False()
     {
-        var message = new Message("Test1", "This is a test 1.", new ImportanceLevel.Medium());
+        var message = new Message("Test1", "This is a test 1.", ImportanceLevel.Medium());
 
         var user = new User();
         var userAddressee = new UserAddressee(user);
@@ -30,7 +30,7 @@ public class ProgramTests
     [Fact]
     public void TryMarkAsRead_Scenario2_ReturnSuccess()
     {
-        var message = new Message("Test2", "This is a test 2.", new ImportanceLevel.Medium());
+        var message = new Message("Test2", "This is a test 2.", ImportanceLevel.Medium());
 
         var user = new User();
         var userAddressee = new UserAddressee(user);
@@ -47,7 +47,7 @@ public class ProgramTests
     [Fact]
     public void TryMarkAsRead_Scenario3_ReturnAlreadyWasRead()
     {
-        var message = new Message("Test3", "This is a test 3.", new ImportanceLevel.Medium());
+        var message = new Message("Test3", "This is a test 3.", ImportanceLevel.Medium());
 
         var user = new User();
         var userAddressee = new UserAddressee(user);
@@ -64,10 +64,10 @@ public class ProgramTests
     [Fact]
     public void Receive_Scenario4_NotWasInReceive()
     {
-        var message = new Message("Test4", "This is a test 4.", new ImportanceLevel.Low());
+        var message = new Message("Test4", "This is a test 4.", ImportanceLevel.Low());
 
         IAddressee mockAddressee = Substitute.For<IAddressee>();
-        var filterAddressee = new FilterAddresseeProxy(mockAddressee, new ImportanceLevel.Medium());
+        var filterAddressee = new FilterAddresseeProxy(mockAddressee, ImportanceLevel.Medium());
         List<IAddressee> addresses = [filterAddressee];
 
         var topic = new Topic("TopicTest4", addresses);
@@ -79,7 +79,7 @@ public class ProgramTests
     [Fact]
     public void ReceiveAndLog_Scenario5_WasInReceiveAndLog()
     {
-        var message = new Message("Test5", "This is a test 5.", new ImportanceLevel.Medium());
+        var message = new Message("Test5", "This is a test 5.", ImportanceLevel.Medium());
 
         ILogger mockLogger = Substitute.For<ILogger>();
         IAddressee mockAddressee = Substitute.For<IAddressee>();
@@ -96,7 +96,7 @@ public class ProgramTests
     [Fact]
     public void WriteHeadBody_Scenario6_WasInWriteHeadBody()
     {
-        var message = new Message("Test6", "This is a test 6.", new ImportanceLevel.Medium());
+        var message = new Message("Test6", "This is a test 6.", ImportanceLevel.Medium());
 
         IFormatter mockFormatter = Substitute.For<IFormatter>();
         var formattingArchiver = new FormattingArchiver(mockFormatter);
@@ -113,11 +113,11 @@ public class ProgramTests
     [Fact]
     public void ReceivedMessages_Scenario7_ReceivedMessagesLengthOne()
     {
-        var message = new Message("Test7", "This is a test 7.", new ImportanceLevel.Medium());
+        var message = new Message("Test7", "This is a test 7.", ImportanceLevel.Medium());
 
         IAddressee mockUserAddressee1 = Substitute.For<IAddressee>();
         IAddressee mockUserAddressee2 = Substitute.For<IAddressee>();
-        var filterUserAddressee2 = new FilterAddresseeProxy(mockUserAddressee2, new ImportanceLevel.High());
+        var filterUserAddressee2 = new FilterAddresseeProxy(mockUserAddressee2, ImportanceLevel.High());
         List<IAddressee> addresses = [mockUserAddressee1, filterUserAddressee2];
 
         var topic = new Topic("TopicTest7", addresses);
@@ -130,14 +130,14 @@ public class ProgramTests
     [Fact]
     public void CountMessages_Scenario8_EqualsOne()
     {
-        var message = new Message("Test8", "This is a test 8.", new ImportanceLevel.Medium());
+        var message = new Message("Test8", "This is a test 8.", ImportanceLevel.Medium());
 
         var user = new User();
         var userAddressee1 = new UserAddressee(user);
         var userAddressee2 = new UserAddressee(user);
         List<IAddressee> addresses = [userAddressee1, userAddressee2];
 
-        var topic = new Topic("TopicTest7", addresses);
+        var topic = new Topic("TopicTest8", addresses);
         topic.SendMessage(message);
 
         Assert.Equal(1, user.CountMessages);
