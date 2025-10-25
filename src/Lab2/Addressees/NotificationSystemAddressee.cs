@@ -16,15 +16,11 @@ public class NotificationSystemAddressee : IAddressee
 
     public void Receive(Message message)
     {
-        string messageText = $"{message.Head} {message.Body}";
+        bool hasBanWord =
+            _suspiciousWords.Any(word => message.Head.Contains(word, StringComparison.OrdinalIgnoreCase) ||
+                                              message.Body.Contains(word, StringComparison.OrdinalIgnoreCase));
 
-        foreach (string suspiciousWord in _suspiciousWords)
-        {
-            if (messageText.Contains(suspiciousWord, StringComparison.OrdinalIgnoreCase))
-            {
-                _notificationSystem.Notify();
-                return;
-            }
-        }
+        if (hasBanWord)
+            _notificationSystem.Notify();
     }
 }

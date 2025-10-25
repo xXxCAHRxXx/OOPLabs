@@ -1,19 +1,28 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Messages;
 
-public abstract record ImportanceLevel : IComparable<ImportanceLevel>
+public sealed record ImportanceLevel : IComparable<ImportanceLevel>
 {
     private readonly int _importanceValue;
 
-    protected ImportanceLevel(int importanceValue)
+    private ImportanceLevel(int importanceValue)
     {
         _importanceValue = importanceValue;
     }
 
-    public sealed record Low() : ImportanceLevel(0);
+    public static ImportanceLevel Low()
+    {
+        return new ImportanceLevel(0);
+    }
 
-    public sealed record Medium() : ImportanceLevel(1);
+    public static ImportanceLevel Medium()
+    {
+        return new ImportanceLevel(1);
+    }
 
-    public sealed record High() : ImportanceLevel(2);
+    public static ImportanceLevel High()
+    {
+        return new ImportanceLevel(2);
+    }
 
     public int CompareTo(ImportanceLevel? other)
     {

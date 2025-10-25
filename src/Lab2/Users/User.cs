@@ -11,7 +11,7 @@ public class User
     public void Receive(Message message)
     {
         if (!_receivedMessages.Any(existing
-                => object.ReferenceEquals(existing.Message, message)))
+                => ReferenceEquals(existing.Message, message)))
         {
             _receivedMessages.Add(new ReceivedMessage(message));
         }
@@ -20,7 +20,7 @@ public class User
     public IsReadResult IsRead(Message message)
     {
         ReceivedMessage? existing = _receivedMessages
-            .FirstOrDefault(existing => object.ReferenceEquals(existing.Message, message));
+            .FirstOrDefault(existing => ReferenceEquals(existing.Message, message));
 
         if (existing == null)
             return new IsReadResult.MessageNotFound();
@@ -31,7 +31,7 @@ public class User
     public TryMarkAsReadResult TryMarkAsRead(Message message)
     {
         ReceivedMessage? existing = _receivedMessages
-            .FirstOrDefault(existing => object.ReferenceEquals(existing.Message, message));
+            .FirstOrDefault(existing => ReferenceEquals(existing.Message, message));
 
         if (existing == null)
             return new TryMarkAsReadResult.MessageNotFound();

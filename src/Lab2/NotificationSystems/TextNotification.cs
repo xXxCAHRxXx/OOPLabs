@@ -4,11 +4,12 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.NotificationSystems;
 
 public class TextNotification : INotificationSystem
 {
-    private readonly ConsoleWriter _writer = new();
+    private readonly IWriter _writer;
     private readonly string _message;
 
-    public TextNotification(string message)
+    public TextNotification(IWriter writer, string message)
     {
+        _writer = writer;
         _message = message;
     }
 
