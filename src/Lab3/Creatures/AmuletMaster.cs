@@ -1,0 +1,22 @@
+using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
+using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
+
+namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
+
+public class AmuletMaster : Creature
+{
+    private AmuletMaster(Health health, Attack attack) : base(health, attack)
+    { }
+
+    public static IHealthStep Builder => new AmuletMasterBuilder();
+
+    public override ICreature Clone() => new AmuletMaster(Health, Attack);
+
+    private class AmuletMasterBuilder : BaseCreatureBuilder
+    {
+        protected override ICreature CreateCreature()
+        {
+            return new AmuletMaster(Health, Attack);
+        }
+    }
+}
