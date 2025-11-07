@@ -11,7 +11,7 @@ public class AmuletMasterBuilderFactory : ICreatureBuilderFactory
         return AmuletMaster.Builder
             .WithHealth(new Health(5))
             .WithAttack(new Attack(2))
-            .AddModificator(new MagicShieldModificatorFactory())
-            .AddModificator(new AttackMasteryModificatorFactory());
+            .AddModificatorFactory(new MagicShieldModificatorFactory())
+            .AddModificatorFactory(new AttackMasteryModificatorFactory());
     }
 }

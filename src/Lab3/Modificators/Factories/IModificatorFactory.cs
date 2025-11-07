@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Modificators.Factories;
 
 public interface IModificatorFactory
 {
-    ICreature CreateModificatorFrom(ICreature creature);
+    ICreature CreateCreatureWithModificatorFrom(ICreature creature);
 }

@@ -5,7 +5,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Modificators;
 
 public class MagicShield : Modificator
 {
-    private bool _shieldActive = false;
+    private bool _shieldActive = true;
 
     public MagicShield(ICreature creature) : base(creature)
     {
@@ -22,4 +22,6 @@ public class MagicShield : Modificator
             base.Receive(damage);
         }
     }
+
+    public override ICreature Clone() => new MagicShield(Creature.Clone());
 }

@@ -8,7 +8,7 @@ public class CombatAnalystBuilderFactory : ICreatureBuilderFactory
     public ICreatureBuilder Create()
     {
         return CombatAnalyst.Builder
-            .WithHealth(new Health(2))
-            .WithAttack(new Attack(4));
+            .WithHealth(new Health(4))
+            .WithAttack(new Attack(2));
     }
 }

@@ -8,7 +8,7 @@ public class MimicChest : Creature
     private MimicChest(Health health, Attack attack) : base(health, attack)
     { }
 
-    public static IHealthStep Builder => new MimicChestBuilder();
+    public static ICreatureBuilder Builder => new MimicChestBuilder();
 
     public override void Hit(ICreature target)
     {
@@ -23,7 +23,9 @@ public class MimicChest : Creature
     {
         protected override ICreature CreateCreature()
         {
-            return new MimicChest(Health, Attack);
+            return new MimicChest(
+                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
+                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
         }
     }
 }

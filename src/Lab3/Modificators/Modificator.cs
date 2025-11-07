@@ -32,5 +32,5 @@ public abstract class Modificator : ICreature
 
     public void Change(Attack attack) => Creature.Change(attack);
 
-    public ICreature Clone() => Creature.Clone();
+    public abstract ICreature Clone();
 }

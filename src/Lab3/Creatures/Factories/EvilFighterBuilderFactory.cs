@@ -8,7 +8,7 @@ public class EvilFighterBuilderFactory : ICreatureBuilderFactory
     public ICreatureBuilder Create()
     {
         return EvilFighter.Builder
-            .WithHealth(new Health(1))
-            .WithAttack(new Attack(6));
+            .WithHealth(new Health(6))
+            .WithAttack(new Attack(1));
     }
 }

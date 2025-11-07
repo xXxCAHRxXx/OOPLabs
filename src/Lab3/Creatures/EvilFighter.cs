@@ -8,7 +8,7 @@ public class EvilFighter : Creature
     private EvilFighter(Health health, Attack attack) : base(health, attack)
     { }
 
-    public static IHealthStep Builder => new EvilFighterBuilder();
+    public static ICreatureBuilder Builder => new EvilFighterBuilder();
 
     public override void Receive(Attack damage)
     {
@@ -23,7 +23,9 @@ public class EvilFighter : Creature
     {
         protected override ICreature CreateCreature()
         {
-            return new EvilFighter(Health, Attack);
+            return new EvilFighter(
+                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
+                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
         }
     }
 }

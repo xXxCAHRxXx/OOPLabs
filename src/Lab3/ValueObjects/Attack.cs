@@ -24,9 +24,5 @@ public class Attack
 
     public static bool operator >(Attack lhs, Attack rhs) => rhs < lhs;
 
-    public static bool operator <=(Attack lhs, Attack rhs) => !(lhs > rhs);
-
-    public static bool operator >=(Attack lhs, Attack rhs) => rhs <= lhs;
-
     public static Attack Max(Attack lhs, Attack rhs) => new Attack(Math.Max(lhs.Value, rhs.Value));
 }

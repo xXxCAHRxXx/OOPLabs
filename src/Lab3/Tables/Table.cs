@@ -1,5 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
-using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Factories;
+using Itmo.ObjectOrientedProgramming.Lab3.Spells;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.Builders;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.ResultTypes;
 using System.Security.Cryptography;
@@ -37,6 +37,19 @@ public class Table : ITable
         return new GetAttackingCreatureResult.Success(ableToAttackCreature);
     }
 
+    public TryApplySpellResult TryApplySpell(ICreature creature, ISpell spell)
+    {
+        ICreature? target = _creatures.FirstOrDefault(curCreature => ReferenceEquals(curCreature, creature));
+        if (target == null)
+            return new TryApplySpellResult.NotFound();
+
+        ICreature creatureWithSpell = spell.Apply(target);
+
+        _creatures[_creatures.IndexOf(target)] = creatureWithSpell;
+
+        return new TryApplySpellResult.Success(creatureWithSpell);
+    }
+
     public ITable Clone()
     {
         var clonedCreatures = _creatures.Select(curCreature => curCreature.Clone()).ToList();
@@ -50,12 +63,12 @@ public class Table : ITable
 
         private readonly List<ICreature> _creatures = new List<ICreature>();
 
-        public ITableBuilder AddCreature(ICreatureBuilderFactory creatureBuilderFactory)
+        public ITableBuilder AddCreature(ICreature creatureBuilder)
         {
             if (_creatures.Count is MaxCreaturesCount)
                 throw new ArgumentException("Error: add more than 7 creatures in builder.");
 
-            _creatures.Add(creatureBuilderFactory.Create().Build());
+            _creatures.Add(creatureBuilder);
             return this;
         }
 

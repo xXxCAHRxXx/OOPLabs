@@ -10,7 +10,7 @@ public class CombatAnalyst : Creature
     private CombatAnalyst(Health health, Attack attack) : base(health, attack)
     { }
 
-    public static IHealthStep Builder => new CombatAnalystBuilder();
+    public static ICreatureBuilder Builder => new CombatAnalystBuilder();
 
     public override void Hit(ICreature target)
     {
@@ -24,7 +24,9 @@ public class CombatAnalyst : Creature
     {
         protected override ICreature CreateCreature()
         {
-            return new CombatAnalyst(Health, Attack);
+            return new CombatAnalyst(
+                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
+                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
         }
     }
 }

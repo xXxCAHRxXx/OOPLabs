@@ -8,7 +8,7 @@ public class AmuletMaster : Creature
     private AmuletMaster(Health health, Attack attack) : base(health, attack)
     { }
 
-    public static IHealthStep Builder => new AmuletMasterBuilder();
+    public static ICreatureBuilder Builder => new AmuletMasterBuilder();
 
     public override ICreature Clone() => new AmuletMaster(Health, Attack);
 
@@ -16,7 +16,9 @@ public class AmuletMaster : Creature
     {
         protected override ICreature CreateCreature()
         {
-            return new AmuletMaster(Health, Attack);
+            return new AmuletMaster(
+                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
+                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
         }
     }
 }

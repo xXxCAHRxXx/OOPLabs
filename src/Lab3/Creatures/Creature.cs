@@ -12,6 +12,8 @@ public abstract class Creature : ICreature
     {
         Health = health;
         Attack = attack;
+        Change(health);
+        Change(attack);
     }
 
     public bool IsAlive() => Health > Health.Zero;
@@ -48,7 +50,7 @@ public abstract class Creature : ICreature
 
     public void Change(Attack attack)
     {
-        if (attack <= Attack.Zero)
+        if (attack < Attack.Zero)
             throw new ArgumentException("Error: attack cannot be less than one.");
 
         Attack = attack;

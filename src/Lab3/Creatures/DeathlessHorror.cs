@@ -12,7 +12,7 @@ public class DeathlessHorror : Creature
     private DeathlessHorror(Health health, Attack attack) : base(health, attack)
     { }
 
-    public static IHealthStep Builder => new DeathlessHorrorBuilder();
+    public static ICreatureBuilder Builder => new DeathlessHorrorBuilder();
 
     public override void Receive(Attack damage)
     {
@@ -30,7 +30,9 @@ public class DeathlessHorror : Creature
     {
         protected override ICreature CreateCreature()
         {
-            return new DeathlessHorror(Health, Attack);
+            return new DeathlessHorror(
+                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
+                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
         }
     }
 }

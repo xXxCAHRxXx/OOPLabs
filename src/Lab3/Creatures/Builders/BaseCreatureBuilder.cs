@@ -6,13 +6,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 public abstract class BaseCreatureBuilder : ICreatureBuilder
 {
-    protected Health Health { get; private set; } = Health.Zero; // чтобы не жаловолось на null reference (писал комментарий не чатГПТ)
+    protected Health? Health { get; private set; }
 
-    protected Attack Attack { get; private set; } = Attack.Zero;
+    protected Attack? Attack { get; private set; }
 
     private readonly Collection<IModificatorFactory> _modificators = new Collection<IModificatorFactory>();
 
-    public IAttackStep WithHealth(Health health)
+    public ICreatureBuilder WithHealth(Health health)
     {
         Health = health;
         return this;
@@ -24,7 +24,7 @@ public abstract class BaseCreatureBuilder : ICreatureBuilder
         return this;
     }
 
-    public ICreatureBuilder AddModificator(IModificatorFactory modificatorFactory)
+    public ICreatureBuilder AddModificatorFactory(IModificatorFactory modificatorFactory)
     {
         _modificators.Add(modificatorFactory);
         return this;
@@ -35,7 +35,7 @@ public abstract class BaseCreatureBuilder : ICreatureBuilder
         ICreature creature = CreateCreature();
         ICreature creatureWithMods = _modificators.Aggregate(
             creature,
-            (curCreature, factory) => factory.CreateModificatorFrom(curCreature));
+            (curCreature, factory) => factory.CreateCreatureWithModificatorFrom(curCreature));
 
         return creatureWithMods;
     }

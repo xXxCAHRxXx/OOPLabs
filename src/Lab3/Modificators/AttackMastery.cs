@@ -14,4 +14,6 @@ public class AttackMastery : Modificator
         if (target.IsAlive())
             base.Hit(target);
     }
+
+    public override ICreature Clone() => new AttackMastery(Creature.Clone());
 }
