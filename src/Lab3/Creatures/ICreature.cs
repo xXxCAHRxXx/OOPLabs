@@ -16,13 +16,9 @@ public interface ICreature
 
     void Receive(Attack damage);
 
-    void Plus(Health health);
+    void ChangeHealth(Health health);
 
-    void Plus(Attack attack);
-
-    void Change(Health health);
-
-    void Change(Attack attack);
+    void ChangeAttack(Attack attack);
 
     ICreature Clone();
 }

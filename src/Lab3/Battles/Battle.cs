@@ -1,7 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Battles.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables;
-using Itmo.ObjectOrientedProgramming.Lab3.Tables.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Battles;
 
@@ -27,30 +26,27 @@ public class Battle : IBattle
             ITable attackingPlayer = isMoveFirstPlayer ? player1 : player2;
             ITable attackedPlayer = isMoveFirstPlayer ? player2 : player1;
 
-            GetAttackingCreatureResult getAttackingCreatureResult = attackingPlayer.GetAttackingCreature();
-            GetAttackedCreatureResult getAttackedCreatureResult = attackedPlayer.GetAttackedCreature();
+            ICreature? attackingCreature = attackingPlayer.FindAttackingCreature();
+            ICreature? attackedCreature = attackedPlayer.FindAttackedCreature();
 
-            if (getAttackingCreatureResult is GetAttackingCreatureResult.NotFound &&
-                getAttackedCreatureResult is GetAttackedCreatureResult.NotFound)
+            if (attackingCreature is null && attackedCreature is null)
             {
                 return new BattleResult.Draw();
             }
 
-            if (getAttackingCreatureResult is not GetAttackingCreatureResult.Success attackingPlayerSuccess)
+            if (attackingCreature is null)
             {
                 isMoveFirstPlayer = !isMoveFirstPlayer;
                 continue;
             }
 
-            if (getAttackedCreatureResult is not GetAttackedCreatureResult.Success attackedPlayerSuccess)
+            if (attackedCreature is null)
             {
                 return isMoveFirstPlayer ? new BattleResult.FirstWin() : new BattleResult.SecondWin();
             }
 
-            ICreature attackingCreature = attackingPlayerSuccess.Creature;
-            ICreature attackedCreature = attackedPlayerSuccess.Creature;
-
-            attackingCreature.Hit(attackedCreature);
+            if (attackingCreature is ICreature && attackedCreature is ICreature)
+                attackingCreature.Hit(attackedCreature);
 
             isMoveFirstPlayer = !isMoveFirstPlayer;
         }

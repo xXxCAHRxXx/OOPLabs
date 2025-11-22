@@ -6,11 +6,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Tables;
 
 public interface ITable
 {
-    GetAttackedCreatureResult GetAttackedCreature();
+    AddCreatureResult AddCreature(ICreature creature);
 
-    GetAttackingCreatureResult GetAttackingCreature();
+    ICreature? FindAttackedCreature();
 
-    TryApplySpellResult TryApplySpell(ICreature creature, ISpell spell);
+    ICreature? FindAttackingCreature();
+
+    ICreature? TryApplySpell(ICreature creature, ISpell spell);
 
     ITable Clone();
 }

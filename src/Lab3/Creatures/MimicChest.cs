@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class MimicChest : Creature
+public class MimicChest : CreatureBase
 {
     private MimicChest(Health health, Attack attack) : base(health, attack)
     { }
@@ -24,8 +24,8 @@ public class MimicChest : Creature
         protected override ICreature CreateCreature()
         {
             return new MimicChest(
-                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
-                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
+                Health ?? throw new ArgumentNullException("Error: health doesn't have value."),
+                Attack ?? throw new ArgumentNullException("Error: attack doesn't have value."));
         }
     }
 }

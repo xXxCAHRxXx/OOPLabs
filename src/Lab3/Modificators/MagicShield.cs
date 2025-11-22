@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Modificators;
 
-public class MagicShield : Modificator
+public class MagicShield : ModificatorBase
 {
     private bool _shieldActive = true;
 

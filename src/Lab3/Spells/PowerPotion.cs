@@ -7,7 +7,7 @@ public class PowerPotion : ISpell
 {
     public ICreature Apply(ICreature creature)
     {
-        creature.Plus(new Attack(5));
+        creature.ChangeAttack(creature.Attack + new Attack(5));
         return creature;
     }
 }

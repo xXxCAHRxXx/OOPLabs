@@ -1,19 +1,18 @@
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public abstract class Creature : ICreature
+public abstract class CreatureBase : ICreature
 {
     public Health Health { get; protected set; }
 
     public Attack Attack { get; protected set; }
 
-    protected Creature(Health health, Attack attack)
+    protected CreatureBase(Health health, Attack attack)
     {
-        Health = health;
-        Attack = attack;
-        Change(health);
-        Change(attack);
+        ChangeHealth(health);
+        ChangeAttack(attack);
     }
 
     public bool IsAlive() => Health > Health.Zero;
@@ -30,17 +29,8 @@ public abstract class Creature : ICreature
         Health -= Health.CreateFrom(damage);
     }
 
-    public void Plus(Health health)
-    {
-        Change(Health + health);
-    }
-
-    public void Plus(Attack attack)
-    {
-        Change(Attack + attack);
-    }
-
-    public void Change(Health health)
+    [MemberNotNull(nameof(Health))]
+    public void ChangeHealth(Health health)
     {
         if (health <= Health.Zero)
             throw new ArgumentException("Error: health cannot be less than one.");
@@ -48,7 +38,8 @@ public abstract class Creature : ICreature
         Health = health;
     }
 
-    public void Change(Attack attack)
+    [MemberNotNull(nameof(Attack))]
+    public void ChangeAttack(Attack attack)
     {
         if (attack < Attack.Zero)
             throw new ArgumentException("Error: attack cannot be less than one.");

@@ -3,11 +3,11 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Modificators;
 
-public abstract class Modificator : ICreature
+public abstract class ModificatorBase : ICreature
 {
     protected ICreature Creature { get; }
 
-    protected Modificator(ICreature creature)
+    protected ModificatorBase(ICreature creature)
     {
         Creature = creature;
     }
@@ -24,13 +24,9 @@ public abstract class Modificator : ICreature
 
     public virtual void Receive(Attack damage) => Creature.Receive(damage);
 
-    public void Plus(Health health) => Creature.Plus(health);
+    public void ChangeHealth(Health health) => Creature.ChangeHealth(health);
 
-    public void Plus(Attack attack) => Creature.Plus(attack);
-
-    public void Change(Health health) => Creature.Change(health);
-
-    public void Change(Attack attack) => Creature.Change(attack);
+    public void ChangeAttack(Attack attack) => Creature.ChangeAttack(attack);
 
     public abstract ICreature Clone();
 }

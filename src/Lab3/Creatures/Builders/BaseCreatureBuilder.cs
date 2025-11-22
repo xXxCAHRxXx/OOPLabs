@@ -1,6 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Modificators.Factories;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
-using System.Collections.ObjectModel;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
@@ -10,7 +9,7 @@ public abstract class BaseCreatureBuilder : ICreatureBuilder
 
     protected Attack? Attack { get; private set; }
 
-    private readonly Collection<IModificatorFactory> _modificators = new Collection<IModificatorFactory>();
+    private readonly List<IModificatorFactory> _modificators = new List<IModificatorFactory>(); // list
 
     public ICreatureBuilder WithHealth(Health health)
     {

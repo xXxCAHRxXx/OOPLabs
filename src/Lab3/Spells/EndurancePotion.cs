@@ -7,7 +7,7 @@ public class EndurancePotion : ISpell
 {
     public ICreature Apply(ICreature creature)
     {
-        creature.Plus(new Health(5));
+        creature.ChangeHealth(creature.Health + new Health(5));
         return creature;
     }
 }

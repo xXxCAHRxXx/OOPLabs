@@ -3,36 +3,43 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class DeathlessHorror : Creature
+public class DeathlessHorror : CreatureBase
 {
     private readonly Health _healthAfterRevived = new Health(1);
 
-    private bool wasRevived = false;
+    private bool _wasRevived;
 
     private DeathlessHorror(Health health, Attack attack) : base(health, attack)
-    { }
+    {
+        _wasRevived = false;
+    }
+
+    private DeathlessHorror(Health health, Attack attack, bool wasRevived) : base(health, attack)
+    {
+        _wasRevived = wasRevived;
+    }
 
     public static ICreatureBuilder Builder => new DeathlessHorrorBuilder();
 
     public override void Receive(Attack damage)
     {
         base.Receive(damage);
-        if (!wasRevived && !IsAlive())
+        if (!_wasRevived && !IsAlive())
         {
-            wasRevived = true;
+            _wasRevived = true;
             Health = _healthAfterRevived;
         }
     }
 
-    public override ICreature Clone() => new DeathlessHorror(Health, Attack);
+    public override ICreature Clone() => new DeathlessHorror(Health, Attack, _wasRevived);
 
     private class DeathlessHorrorBuilder : BaseCreatureBuilder
     {
         protected override ICreature CreateCreature()
         {
             return new DeathlessHorror(
-                Health ?? throw new NullReferenceException("Error: health doesn't have value."),
-                Attack ?? throw new NullReferenceException("Error: attack doesn't have value."));
+                Health ?? throw new ArgumentNullException("Error: health doesn't have value."),
+                Attack ?? throw new ArgumentNullException("Error: attack doesn't have value."));
         }
     }
 }
