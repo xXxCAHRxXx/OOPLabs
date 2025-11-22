@@ -5,9 +5,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class EndurancePotion : ISpell
 {
+    public Health ValueOfIncreasingHealth { get; } = new Health(5);
+
     public ICreature Apply(ICreature creature)
     {
-        creature.ChangeHealth(creature.Health + new Health(5));
+        creature.ChangeHealth(creature.Health + ValueOfIncreasingHealth);
         return creature;
     }
 }

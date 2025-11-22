@@ -6,5 +6,7 @@ public abstract record AddCreatureResult
 
     public sealed record Success : AddCreatureResult;
 
+    public sealed record HasAlreadyBeenAdded : AddCreatureResult;
+
     public sealed record MoreThanMaxCreaturesCountWasAdded : AddCreatureResult;
 }
