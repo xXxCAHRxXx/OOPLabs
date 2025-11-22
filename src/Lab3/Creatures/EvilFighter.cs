@@ -19,7 +19,7 @@ public class EvilFighter : CreatureBase
 
     public override ICreature Clone() => new EvilFighter(Health, Attack);
 
-    private class EvilFighterBuilder : BaseCreatureBuilder
+    private class EvilFighterBuilder : CreatureBaseBuilder
     {
         protected override ICreature CreateCreature()
         {

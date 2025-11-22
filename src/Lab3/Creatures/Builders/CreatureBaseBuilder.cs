@@ -3,13 +3,13 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
-public abstract class BaseCreatureBuilder : ICreatureBuilder
+public abstract class CreatureBaseBuilder : ICreatureBuilder
 {
     protected Health? Health { get; private set; }
 
     protected Attack? Attack { get; private set; }
 
-    private readonly List<IModificatorFactory> _modificators = new List<IModificatorFactory>(); // list
+    private readonly List<IModificatorFactory> _modificators = new List<IModificatorFactory>();
 
     public ICreatureBuilder WithHealth(Health health)
     {

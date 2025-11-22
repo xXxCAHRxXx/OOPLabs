@@ -9,8 +9,6 @@ public class Table : ITable
 {
     public int MaxCreaturesCount { get; } = 7;
 
-    public IReadOnlyList<ICreature> Creatures => _creatures.AsReadOnly();
-
     private readonly List<ICreature> _creatures;
     private readonly Func<int, int> _randomFunc;
 
