@@ -18,7 +18,7 @@ public class Table : ITable
         _randomFunc = RandomNumberGenerator.GetInt32;
     }
 
-    private Table(List<ICreature> creatures,  Func<int, int> randomFunc)
+    private Table(List<ICreature> creatures, Func<int, int> randomFunc)
     {
         _creatures = creatures;
         _randomFunc = randomFunc;
