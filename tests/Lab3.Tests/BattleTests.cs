@@ -15,74 +15,73 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Tests;
 public class BattleTests
 {
     [Fact]
-    public void AddCreature_Add7Creatures_NoException()
+    public void AddCreature_Add8Creatures_SomeNullSomeNotNull()
     {
-        Exception? exception = Record.Exception(() => Table.Builder
-            .AddCreature(new AmuletMasterBuilderFactory().Create().Build())
-            .AddCreature(new CombatAnalystBuilderFactory().Create().Build())
-            .AddCreature(new DeathlessHorrorBuilderFactory().Create().Build())
-            .AddCreature(new EvilFighterBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build());
+        var table = new Table();
+        var creatures = new ICreature[]
+        {
+            new AmuletMasterBuilderFactory().Create().Build(),
+            new CombatAnalystBuilderFactory().Create().Build(),
+            new DeathlessHorrorBuilderFactory().Create().Build(),
+            new EvilFighterBuilderFactory().Create().Build(),
+            new MimicChestBuilderFactory().Create().Build(),
+            new MimicChestBuilderFactory().Create().Build(),
+            new MimicChestBuilderFactory().Create().Build(),
+            new MimicChestBuilderFactory().Create().Build(),
+        };
 
-        Assert.Null(exception);
-    }
+        for (int i = 0; i < creatures.Length; i++)
+        {
+            AddCreatureResult result = table.AddCreature(creatures[i]);
 
-    [Fact]
-    public void AddCreature_Add8Creatures_ThrowException()
-    {
-        Exception? exception = Record.Exception(() => Table.Builder
-            .AddCreature(new AmuletMasterBuilderFactory().Create().Build())
-            .AddCreature(new CombatAnalystBuilderFactory().Create().Build())
-            .AddCreature(new DeathlessHorrorBuilderFactory().Create().Build())
-            .AddCreature(new EvilFighterBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build());
-
-        Assert.NotNull(exception);
+            if (i < table.MaxCreaturesCount)
+            {
+                Assert.IsType<AddCreatureResult.Success>(result);
+            }
+            else
+            {
+                Assert.IsType<AddCreatureResult.MoreThanMaxCreaturesCountWasAdded>(result);
+            }
+        }
     }
 
     [Fact]
     public void TryApplySpell_ApplySpellOnCreature_SpellWorked()
     {
         ICreature creature = new MimicChestBuilderFactory().Create().Build();
-        ITable table = Table.Builder.AddCreature(creature).Build();
+        var table = new Table();
+        table.AddCreature(creature);
         ISpell spell = new PowerPotion();
 
-        TryApplySpellResult result = table.TryApplySpell(creature, spell);
-        TryApplySpellResult.Success successResult = Assert.IsType<TryApplySpellResult.Success>(result);
-        Assert.Equal(6, successResult.Creature.Attack.Value);
+        ICreature? result = table.TryApplySpell(creature, spell);
+        Assert.NotNull(result);
+        Assert.Equal(6, result.Attack.Value);
     }
 
     [Fact]
     public void TryApplySpell_ApplySpellOnCreature_SpellWorked_2()
     {
         ICreature creature = new MimicChestBuilderFactory().Create().Build();
-        ITable table = Table.Builder.AddCreature(creature).Build();
+        var table = new Table();
+        table.AddCreature(creature);
         ISpell spell = new ProtectionAmulet();
 
-        TryApplySpellResult result = table.TryApplySpell(creature, spell);
-        TryApplySpellResult.Success successResult = Assert.IsType<TryApplySpellResult.Success>(result);
+        ICreature? result = table.TryApplySpell(creature, spell);
+        Assert.NotNull(result);
 
-        Assert.IsType<MagicShield>(successResult.Creature);
+        Assert.IsType<MagicShield>(result);
     }
 
     [Fact]
     public void TryApplySpell_ApplySpellOnCreature_NotFound()
     {
         ICreature creature = new MimicChestBuilderFactory().Create().Build();
-        ITable table = Table.Builder
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build();
+        var table = new Table();
+        table.AddCreature(new MimicChestBuilderFactory().Create().Build());
         ISpell spell = new ProtectionAmulet();
 
-        TryApplySpellResult result = table.TryApplySpell(creature, spell);
-        Assert.IsType<TryApplySpellResult.NotFound>(result);
+        ICreature? result = table.TryApplySpell(creature, spell);
+        Assert.Null(result);
     }
 
     [Fact]
@@ -115,8 +114,8 @@ public class BattleTests
     [Fact]
     public void BattleWithEmptyTables_StartFight_Draw()
     {
-        ITable table1 = Table.Builder.Build();
-        ITable table2 = Table.Builder.Build();
+        var table1 = new Table();
+        var table2 = new Table();
 
         var battle = new Battle(table1, table2);
         BattleResult result = battle.StartFight();
@@ -126,13 +125,11 @@ public class BattleTests
     [Fact]
     public void SimpleBattle_StartFight_FirstWin()
     {
-        ITable table1 = Table.Builder
-            .AddCreature(new AmuletMasterBuilderFactory().Create().Build())
-            .Build();
+        var table1 = new Table();
+        table1.AddCreature(new AmuletMasterBuilderFactory().Create().Build());
 
-        ITable table2 = Table.Builder
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build();
+        var table2 = new Table();
+        table2.AddCreature(new MimicChestBuilderFactory().Create().Build());
 
         var battle = new Battle(table1, table2);
         BattleResult result = battle.StartFight();
@@ -142,13 +139,11 @@ public class BattleTests
     [Fact]
     public void SimpleBattle_StartFight_SecondWin()
     {
-        ITable table1 = Table.Builder
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build();
+        var table1 = new Table();
+        table1.AddCreature(new MimicChestBuilderFactory().Create().Build());
 
-        ITable table2 = Table.Builder
-            .AddCreature(new DeathlessHorrorBuilderFactory().Create().Build())
-            .Build();
+        var table2 = new Table();
+        table2.AddCreature(new DeathlessHorrorBuilderFactory().Create().Build());
 
         var battle = new Battle(table1, table2);
         BattleResult result = battle.StartFight();
@@ -158,13 +153,11 @@ public class BattleTests
     [Fact]
     public void SimpleBattle_StartFight_SecondWin_2()
     {
-        ITable table1 = Table.Builder
-            .AddCreature(new MimicChestBuilderFactory().Create().Build())
-            .Build();
+        var table1 = new Table();
+        table1.AddCreature(new MimicChestBuilderFactory().Create().Build());
 
-        ITable table2 = Table.Builder
-            .AddCreature(new AmuletMasterBuilderFactory().Create().Build())
-            .Build();
+        var table2 = new Table();
+        table2.AddCreature(new AmuletMasterBuilderFactory().Create().Build());
 
         var battle = new Battle(table1, table2);
         BattleResult result = battle.StartFight();
@@ -174,13 +167,11 @@ public class BattleTests
     [Fact]
     public void SimpleBattle_StartFight_SecondWin_3()
     {
-        ITable table1 = Table.Builder
-            .AddCreature(new MimicChestBuilderFactory().Create().WithHealth(new Health(10)).Build())
-            .Build();
+        var table1 = new Table();
+        table1.AddCreature(new MimicChestBuilderFactory().Create().WithHealth(new Health(10)).Build());
 
-        ITable table2 = Table.Builder
-            .AddCreature(new AmuletMasterBuilderFactory().Create().Build())
-            .Build();
+        var table2 = new Table();
+        table2.AddCreature(new AmuletMasterBuilderFactory().Create().Build());
 
         var battle = new Battle(table1, table2);
         BattleResult result = battle.StartFight();
@@ -191,14 +182,12 @@ public class BattleTests
     public void SimpleBattle_StartFight_TablesNotChanged()
     {
         ICreature creatureTable1 = new MimicChestBuilderFactory().Create().Build();
-        ITable table1 = Table.Builder
-            .AddCreature(creatureTable1)
-            .Build();
+        var table1 = new Table();
+        table1.AddCreature(creatureTable1);
 
         ICreature creatureTable2 = new DeathlessHorrorBuilderFactory().Create().Build();
-        ITable table2 = Table.Builder
-            .AddCreature(creatureTable2)
-            .Build();
+        var table2 = new Table();
+        table2.AddCreature(creatureTable2);
 
         var battle = new Battle(table1, table2);
         battle.StartFight();
