@@ -39,7 +39,7 @@ public class Table : ITable
         if (mayBeAttackedCreatures.Count == 0)
             return null;
 
-        ICreature mayBeAttackedCreature = mayBeAttackedCreatures[RandomNumberGenerator.GetInt32(mayBeAttackedCreatures.Count)];
+        ICreature mayBeAttackedCreature = mayBeAttackedCreatures[_randomFunc(mayBeAttackedCreatures.Count)];
         return mayBeAttackedCreature;
     }
 
@@ -49,7 +49,7 @@ public class Table : ITable
         if (ableToAttackCreatures.Count == 0)
             return null;
 
-        ICreature ableToAttackCreature = ableToAttackCreatures[RandomNumberGenerator.GetInt32(ableToAttackCreatures.Count)];
+        ICreature ableToAttackCreature = ableToAttackCreatures[_randomFunc(ableToAttackCreatures.Count)];
         return ableToAttackCreature;
     }
 
