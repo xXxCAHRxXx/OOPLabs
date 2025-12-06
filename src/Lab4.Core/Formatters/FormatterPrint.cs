@@ -1,12 +1,12 @@
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 
-public class Formatter : IFormatter
+public class FormatterPrint : IFormatterPrint
 {
     private readonly string _strForFile;
     private readonly string _strForDirectory;
     private readonly string _strForPadding;
 
-    public Formatter(string strForFile, string strForDirectory, string strForPadding)
+    public FormatterPrint(string strForFile, string strForDirectory, string strForPadding)
     {
         _strForFile = strForFile;
         _strForDirectory = strForDirectory;

@@ -14,9 +14,8 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        IFileSystem fileSystem = new LocalFileSystem();
         IPathResolver pathResolver = new UnixPathResolver();
-        IFormatter formatter = new Formatter("F: ", "D: ", "    ");
+        IFormatterPrint formatter = new FormatterPrint("F: ", "D: ", "    ");
         IWriter writer = new ConsoleWriter();
         IFileSystemComponentVisitor visitor = new FormattingVisitor(formatter, writer);
         IContextFileSystem contextFileSystem = new ContextFileSystem(pathResolver, visitor);

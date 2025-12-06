@@ -1,6 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 
-public interface IFormatter
+public interface IFormatterPrint
 {
     string FormatFile(string name, int depth);
 

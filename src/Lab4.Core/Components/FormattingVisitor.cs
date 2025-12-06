@@ -6,10 +6,10 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Components;
 
 public class FormattingVisitor : IFileSystemComponentVisitor
 {
-    private readonly IFormatter _formatter;
+    private readonly IFormatterPrint _formatter;
     private readonly IWriter _writer;
 
-    public FormattingVisitor(IFormatter formatter, IWriter writer)
+    public FormattingVisitor(IFormatterPrint formatter, IWriter writer)
     {
         _formatter = formatter;
         _writer = writer;
