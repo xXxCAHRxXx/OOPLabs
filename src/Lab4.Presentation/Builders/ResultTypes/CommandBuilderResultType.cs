@@ -1,4 +1,6 @@
-namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
+
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Builders.ResultTypes;
 
 public abstract record CommandBuilderResultType
 {
