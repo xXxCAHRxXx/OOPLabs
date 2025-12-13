@@ -3,18 +3,11 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class DisconnectCommand : BaseCommand
+public class DisconnectCommand : ICommand
 {
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
-        {
-            contextFileSystem.Disconnect();
-        }
-        catch (Exception exception)
-        {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
-        }
+        context.Disconnect();
 
         return new CommandResultType.Success();
     }

@@ -4,7 +4,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class ShowCommand : BaseCommand
+public class ShowCommand : ICommand
 {
     private readonly string _path;
     private readonly IWriter _writer;
@@ -15,17 +15,25 @@ public class ShowCommand : BaseCommand
         _writer = writer;
     }
 
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
+        if (context.FileSystem is null)
         {
-            string text = contextFileSystem.ReadAllText(_path);
-            _writer.Write(text);
+            return new CommandResultType.Failure(
+                new DisconnectError($"Error: try to apply show command on disconnected system."));
         }
-        catch (Exception exception)
+
+        string normalizedPath = context.FileSystem
+            .Combine(context.ConnectionPath, context.LocalPath, _path);
+
+        if (!context.FileSystem.FileExists(normalizedPath))
         {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
+            return new CommandResultType.Failure(
+                new FileNotFoundError($"Error: file {normalizedPath} do not exist."));
         }
+
+        string fileText = context.FileSystem.ReadAllText(normalizedPath);
+        _writer.Write(fileText);
 
         return new CommandResultType.Success();
     }

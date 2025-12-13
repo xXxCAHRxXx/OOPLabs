@@ -4,9 +4,7 @@ public abstract record ArgumentResultType
 {
     private ArgumentResultType() { }
 
-    public sealed record Success() : ArgumentResultType;
-
-    public sealed record EndOfParse() : ArgumentResultType;
+    public sealed record EndOfParse : ArgumentResultType;
 
     public sealed record Failure(IArgumentError Error) : ArgumentResultType;
 }

@@ -1,27 +1,32 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Components;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class ListCommand : BaseCommand
+public class ListCommand : ICommand
 {
     private readonly int _depth;
+    private readonly IWriter _writer;
 
-    public ListCommand(int depth)
+    public ListCommand(int depth, IWriter writer)
     {
         _depth = depth;
+        _writer = writer;
     }
 
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
+        if (context.FileSystem is null)
         {
-            contextFileSystem.TreeList(_depth);
+            return new CommandResultType.Failure(
+                new DisconnectError($"Error: try to apply list command on disconnected system."));
         }
-        catch (Exception exception)
-        {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
-        }
+
+        var visitor = new FormattingVisitor(context.FileSystem, _writer, "F: ", "D: ", "  ");
+        var component = new DirectoryFileSystemComponent(context.LocalPath);
+        component.Accept(visitor, 0, _depth);
 
         return new CommandResultType.Success();
     }

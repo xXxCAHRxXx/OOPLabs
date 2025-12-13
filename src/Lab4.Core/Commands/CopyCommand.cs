@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class CopyCommand : BaseCommand
+public class CopyCommand : ICommand
 {
     private readonly string _sourcePath;
     private readonly string _destinationPath;
@@ -14,16 +14,35 @@ public class CopyCommand : BaseCommand
         _destinationPath = destinationPath;
     }
 
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
+        if (context.FileSystem is null)
         {
-            contextFileSystem.Copy(_sourcePath, _destinationPath);
+            return new CommandResultType.Failure(
+                new DisconnectError($"Error: try to apply copy command on disconnected system."));
         }
-        catch (Exception exception)
+
+        string normalizedSourcePath = context.FileSystem
+            .Combine(context.ConnectionPath, context.LocalPath, _sourcePath);
+
+        string normalizedDestinationPath = context.FileSystem
+            .Combine(context.ConnectionPath, context.LocalPath, _destinationPath);
+
+        if (!context.FileSystem.FileExists(normalizedSourcePath))
         {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
+            return new CommandResultType.Failure(
+                new FileNotFoundError($"Error: file {normalizedSourcePath} not exist."));
         }
+
+        if (!context.FileSystem.DirectoryExists(normalizedDestinationPath))
+        {
+            return new CommandResultType.Failure(
+                new DirectoryNotFoundError($"Error: directory {normalizedDestinationPath} do not exist."));
+        }
+
+        normalizedDestinationPath = context.FileSystem.Combine(normalizedDestinationPath, context.FileSystem.GetFileName(normalizedSourcePath));
+
+        context.FileSystem.Copy(normalizedSourcePath, normalizedDestinationPath);
 
         return new CommandResultType.Success();
     }

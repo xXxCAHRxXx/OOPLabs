@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.Arguments.
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.SubCommands.ResultTypes;
 
-public record ErrorWhileParsingArguments(IArgumentError ArgumentParserError) : IArgumentParserError
+public record ErrorWhileParsingArguments(IArgumentError ArgumentError) : ISubCommandParseError
 {
-    public string ErrorMessage { get; } = ArgumentParserError.ErrorMessage;
+    public string ErrorMessage { get; } = ArgumentError.ErrorMessage;
 }

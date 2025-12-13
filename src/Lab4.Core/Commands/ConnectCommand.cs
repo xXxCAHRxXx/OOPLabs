@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class ConnectCommand : BaseCommand
+public class ConnectCommand : ICommand
 {
     private readonly string _address;
 
@@ -15,16 +15,17 @@ public class ConnectCommand : BaseCommand
         _fileSystem = fileSystem;
     }
 
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
+        string normalizedAddress = _fileSystem.NormalizePath(_address);
+
+        if (!_fileSystem.DirectoryExists(normalizedAddress))
         {
-            contextFileSystem.Connect(_address, _fileSystem);
+            return new CommandResultType.Failure(
+                new DirectoryNotFoundError($"Error: directory {normalizedAddress} does not exist."));
         }
-        catch (Exception exception)
-        {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
-        }
+
+        context.Connect(normalizedAddress, _fileSystem);
 
         return new CommandResultType.Success();
     }

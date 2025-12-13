@@ -26,8 +26,8 @@ public class DirectoryFileSystemComponent : IFileSystemComponent
         }
     }
 
-    public void Accept(IFileSystemComponentVisitor visitor, int depth, int maxDepth, IFileSystem fileSystem)
+    public void Accept(IFileSystemComponentVisitor visitor, int depth, int maxDepth)
     {
-        visitor.Visit(this, depth, maxDepth, fileSystem);
+        visitor.Visit(this, depth, maxDepth);
     }
 }

@@ -1,6 +1,0 @@
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.Arguments.ConcreteArgumentsWithName.LinksForConnectCommandArgumentMode;
-
-public interface IConnectCommandModeArgumentLink : IConnectCommandModeArgument
-{
-    IConnectCommandModeArgumentLink AddNext(IConnectCommandModeArgumentLink link);
-}

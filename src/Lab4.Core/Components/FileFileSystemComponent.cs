@@ -1,5 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
-
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Components;
 
 public class FileFileSystemComponent : IFileSystemComponent
@@ -11,8 +9,8 @@ public class FileFileSystemComponent : IFileSystemComponent
         Name = name;
     }
 
-    public void Accept(IFileSystemComponentVisitor visitor, int depth, int maxDepth, IFileSystem fileSystem)
+    public void Accept(IFileSystemComponentVisitor visitor, int depth, int maxDepth)
     {
-        visitor.Visit(this, depth, maxDepth, fileSystem);
+        visitor.Visit(this, depth, maxDepth);
     }
 }

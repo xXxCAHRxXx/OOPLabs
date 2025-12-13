@@ -1,0 +1,6 @@
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.Arguments.ConcreteArguments.ConnectCommandModeArgumentFactories;
+
+public interface IConnectCommandModeArgumentFactoryLink : IConnectCommandModeArgumentFactory
+{
+    IConnectCommandModeArgumentFactoryLink AddNext(IConnectCommandModeArgumentFactoryLink link);
+}

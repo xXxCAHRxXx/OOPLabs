@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
-public class DeleteCommand : BaseCommand
+public class DeleteCommand : ICommand
 {
     private readonly string _path;
 
@@ -12,16 +12,24 @@ public class DeleteCommand : BaseCommand
         _path = path;
     }
 
-    public override CommandResultType Execute(IContextFileSystem contextFileSystem)
+    public CommandResultType Execute(IContext context)
     {
-        try
+        if (context.FileSystem is null)
         {
-            contextFileSystem.Delete(_path);
+            return new CommandResultType.Failure(
+                new DisconnectError($"Error: try to apply delete command on disconnected system."));
         }
-        catch (Exception exception)
+
+        string normalizedPath = context.FileSystem
+            .Combine(context.ConnectionPath, context.LocalPath, _path);
+
+        if (!context.FileSystem.FileExists(normalizedPath))
         {
-            return new CommandResultType.Failure(GetErrorFromException(exception));
+            return new CommandResultType.Failure(
+                new FileNotFoundError($"Error: file {normalizedPath} do not exist."));
         }
+
+        context.FileSystem.Delete(normalizedPath);
 
         return new CommandResultType.Success();
     }

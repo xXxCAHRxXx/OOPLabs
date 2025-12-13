@@ -1,0 +1,6 @@
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.Arguments.ConcreteArguments.ShowCommandModeArgumentFactories.ShowCommandModeArgumentFactoryFactories;
+
+public interface IShowCommandModeArgumentFactoryFactory
+{
+    IShowCommandModeArgumentFactory Create();
+}

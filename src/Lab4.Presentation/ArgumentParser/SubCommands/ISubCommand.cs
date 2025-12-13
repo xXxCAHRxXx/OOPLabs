@@ -4,7 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentParser.SubCom
 
 public interface ISubCommand
 {
-    string Name { get; }
-
-    ArgumentParserResultType Apply(IEnumerator<string> iterator);
+    SubCommandParseResultType Apply(IEnumerator<string> iterator);
 }
