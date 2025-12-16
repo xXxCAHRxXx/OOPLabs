@@ -20,7 +20,7 @@ public class CombatAnalyst : CreatureBase
 
     public override ICreature Clone() => new CombatAnalyst(Health, Attack);
 
-    private class CombatAnalystBuilder : CreatureBaseBuilder
+    private class CombatAnalystBuilder : CreatureBuilderBase
     {
         protected override ICreature CreateCreature()
         {

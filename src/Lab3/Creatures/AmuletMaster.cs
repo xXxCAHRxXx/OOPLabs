@@ -12,7 +12,7 @@ public class AmuletMaster : CreatureBase
 
     public override ICreature Clone() => new AmuletMaster(Health, Attack);
 
-    private class AmuletMasterBuilder : CreatureBaseBuilder
+    private class AmuletMasterBuilder : CreatureBuilderBase
     {
         protected override ICreature CreateCreature()
         {

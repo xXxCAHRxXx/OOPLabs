@@ -33,7 +33,7 @@ public class DeathlessHorror : CreatureBase
 
     public override ICreature Clone() => new DeathlessHorror(Health, Attack, _wasRevived);
 
-    private class DeathlessHorrorBuilder : CreatureBaseBuilder
+    private class DeathlessHorrorBuilder : CreatureBuilderBase
     {
         protected override ICreature CreateCreature()
         {

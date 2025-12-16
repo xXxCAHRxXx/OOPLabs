@@ -19,7 +19,7 @@ public class MimicChest : CreatureBase
 
     public override ICreature Clone() => new MimicChest(Health, Attack);
 
-    private class MimicChestBuilder : CreatureBaseBuilder
+    private class MimicChestBuilder : CreatureBuilderBase
     {
         protected override ICreature CreateCreature()
         {

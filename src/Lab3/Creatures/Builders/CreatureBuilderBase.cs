@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
-public abstract class CreatureBaseBuilder : ICreatureBuilder
+public abstract class CreatureBuilderBase : ICreatureBuilder
 {
     protected Health? Health { get; private set; }
 
